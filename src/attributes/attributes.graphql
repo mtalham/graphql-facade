@@ -1,0 +1,29 @@
+type ItemAttribute {
+  id: ID!
+  type: String!
+  value: String!
+  dtmName: DtmName
+  nonConformanceInfo: NonConformanceInfo
+  code: String
+}
+
+enum DtmName {
+  SYSTEM "hasSystem"
+  DISCIPLINE
+  FACILITY
+  FUNCTION_CODE
+  AREA_CODE
+  PROCUREMENT_PACKAGE
+  VOIDED
+  DELETED
+  UNKNOWN
+}
+
+type NonConformanceInfo {
+  nonConformantProperty: String
+  nonConformantValue: String
+  description: String
+  type: String
+  maturityLevel: String
+  foundOn: String
+}

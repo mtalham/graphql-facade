@@ -1,0 +1,15 @@
+type TagSummary {
+  id: Int!
+  tagNumber: String!
+  description: String!
+  attributes(filter: AttributeSummaryFilter): [ItemAttribute!]
+}
+
+type Query {
+  tagSummary(itemId: String!): TagSummary
+}
+
+input AttributeSummaryFilter {
+  count: Int = 3
+  dtmName_in: [DtmName!]!
+}
