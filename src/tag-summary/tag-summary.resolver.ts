@@ -25,8 +25,7 @@ export class TagSummaryResolver {
     @Context() context: GraphQLExecutionContext,
   ) {
     const headers = context['headers'];
-    const tenant = this.authService.getTenantIdFrom(headers);
-    const twinId = headers['x-twin-id'];
+    const { tenant, twinId } = this.authService.getTenantAndTwinIdFrom(headers);
     return this.tagSummaryService.findByItemBy(tenant, twinId, itemId);
   }
 
@@ -34,18 +33,17 @@ export class TagSummaryResolver {
   attributes(
     @Parent() tagSummary: TagSummary,
     @Context() context: GraphQLExecutionContext,
-    @Args('filter') filter: AttributeSummaryFilter,
+    @Args('filter') attrFilter: AttributeSummaryFilter,
   ) {
     const { id } = tagSummary;
     const headers = context['headers'];
-    const tenant = this.authService.getTenantIdFrom(headers);
-    const twinId = headers['x-twin-id'];
+    const { tenant, twinId } = this.authService.getTenantAndTwinIdFrom(headers);
 
     return this.tagSummaryService
       .getItemAttributes(tenant, twinId, id.toString())
       .pipe(
         map((res) =>
-          res.filter((it) => filter.dtmName_in.includes(it.dtmName)),
+          res.filter((it) => attrFilter.dtmName_in.includes(it.dtmName)),
         ),
       );
   }
